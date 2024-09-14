@@ -3,11 +3,18 @@ import { Container, Content, Icon } from './styles'
 import { Highlight } from '@/src/components/Highlight'
 import { Button } from '@/src/components/Button'
 import { Input } from '@/src/components/Input'
+import { useNavigation } from '@react-navigation/native'
 
 export function NewGroup() {
+  const navigation = useNavigation()
+
+  function handleNewGroup() {
+    navigation.navigate('groups')
+  }
+
   return (
     <Container>
-      <Header showBackButton />
+      <Header showBackButton handleClick={handleNewGroup} />
 
       <Content>
         <Icon />

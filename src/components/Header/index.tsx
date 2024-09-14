@@ -3,14 +3,15 @@ import logo from '@/src/assets/logo.png'
 
 type HeaderProps = {
   showBackButton?: boolean
+  handleClick: () => void
 }
 
-export function Header({ showBackButton = false }: HeaderProps) {
+export function Header({ showBackButton = false, handleClick }: HeaderProps) {
   return (
     <Container>
       {showBackButton && (
         <>
-          <BackButton>
+          <BackButton onPress={() => handleClick()}>
             <BackIcon />
           </BackButton>
         </>
