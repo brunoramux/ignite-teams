@@ -9,6 +9,7 @@ import { useState } from 'react'
 import { FlatList } from 'react-native'
 import { PlayerCard } from '@/src/components/PlayerCard'
 import { ListEmpty } from '@/src/components/ListEmpty'
+import { useNavigation } from '@react-navigation/native'
 
 export function Players() {
   const [teams, setTeams] = useState('time a')
@@ -21,9 +22,15 @@ export function Players() {
     'Caio',
   ])
 
+  const navigation = useNavigation()
+
+  function handleGoBack() {
+    navigation.goBack()
+  }
+
   return (
     <Container>
-      <Header showBackButton />
+      <Header showBackButton handleClick={handleGoBack} />
 
       <Highlight
         title="Nome da turma"

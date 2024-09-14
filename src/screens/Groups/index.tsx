@@ -6,12 +6,22 @@ import { GroupCard } from '@/src/components/GroupCard'
 import { useState } from 'react'
 import { ListEmpty } from '@/src/components/ListEmpty'
 import { Button } from '@/src/components/Button'
-import { useNavigation } from '@react-navigation/native'
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
-export function Groups() {
+type RootParamList = {
+  groups: undefined
+  new: undefined
+  players: {
+    group: string
+  }
+}
+
+interface Props {
+  navigation: NativeStackNavigationProp<RootParamList, 'groups'>
+}
+
+export function Groups({ navigation }: Props) {
   const [groups, setGroups] = useState<string[]>([])
-
-  const navigation = useNavigation()
 
   function handleNewGroup() {
     navigation.navigate('new')
@@ -19,7 +29,7 @@ export function Groups() {
 
   return (
     <S.Container>
-      <Header />
+      <Header handleClick={() => {}} />
       <Highlight title="Turmas" subtitle="jogue com a sua turma" />
       <FlatList
         data={groups}

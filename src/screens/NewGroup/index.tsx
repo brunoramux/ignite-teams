@@ -8,13 +8,17 @@ import { useNavigation } from '@react-navigation/native'
 export function NewGroup() {
   const navigation = useNavigation()
 
-  function handleNewGroup() {
-    navigation.navigate('groups')
+  function handleGoBack() {
+    navigation.goBack()
+  }
+
+  function handlePlayers() {
+    navigation.navigate('players', { group: 'Rocketseat' })
   }
 
   return (
     <Container>
-      <Header showBackButton handleClick={handleNewGroup} />
+      <Header showBackButton handleClick={handleGoBack} />
 
       <Content>
         <Icon />
@@ -24,7 +28,11 @@ export function NewGroup() {
           subtitle="crie a turma para adicionar as pessoas"
         />
         <Input placeholder="Nome da turma" />
-        <Button title="Criar" style={{ marginTop: 20 }} />
+        <Button
+          title="Criar"
+          style={{ marginTop: 20 }}
+          onPress={handlePlayers}
+        />
       </Content>
     </Container>
   )
