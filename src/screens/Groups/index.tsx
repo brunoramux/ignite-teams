@@ -3,11 +3,12 @@ import * as S from './styles'
 import { Header } from '@/src/components/Header'
 import { Highlight } from '@/src/components/Highlight'
 import { GroupCard } from '@/src/components/GroupCard'
-import { useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { ListEmpty } from '@/src/components/ListEmpty'
 import { Button } from '@/src/components/Button'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { fetchGroups } from '@/src/storage/group/fetchGroups'
+import { useFocusEffect } from '@react-navigation/native'
 
 type RootParamList = {
   groups: undefined
@@ -33,9 +34,19 @@ export function Groups({ navigation }: Props) {
     setGroups(result)
   }
 
-  useEffect(() => {
-    getGroups()
-  }, [groups])
+  function handleOpenGroup(group: string) {
+    navigation.navigate('players', { group })
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      getGroups()
+    }, []),
+  )
+
+  // useEffect(() => {
+  //   getGroups()
+  // }, [groups])
 
   return (
     <S.Container>
@@ -44,7 +55,9 @@ export function Groups({ navigation }: Props) {
       <FlatList
         data={groups}
         keyExtractor={(item) => item}
-        renderItem={({ item }) => <GroupCard title={item} />}
+        renderItem={({ item }) => (
+          <GroupCard title={item} onPress={() => handleOpenGroup(item)} />
+        )}
         contentContainerStyle={groups.length === 0 && { flex: 1 }}
         ListEmptyComponent={() => (
           <ListEmpty message="Que tal cadastrar a primeira turma?" />

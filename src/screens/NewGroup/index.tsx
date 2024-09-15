@@ -5,7 +5,9 @@ import { Button } from '@/src/components/Button'
 import { Input } from '@/src/components/Input'
 import { useNavigation } from '@react-navigation/native'
 import { useState } from 'react'
-import { groupCreate } from '@/src/storage/group/groupCreate'
+import { groupCreate } from '@/src/storage/group/createGroup'
+import { AppError } from '@/src/_errors/appErrors'
+import { Alert } from 'react-native'
 
 export function NewGroup() {
   const [group, setGroup] = useState('')
@@ -17,8 +19,20 @@ export function NewGroup() {
   }
 
   async function handleCreateNewGroup() {
-    await groupCreate(group)
-    navigation.navigate('players', { group })
+    try {
+      if (group.trim().length <= 3) {
+        Alert.alert('Nome do grupo inválido')
+        return
+      }
+      await groupCreate(group)
+      navigation.navigate('players', { group })
+    } catch (error) {
+      if (error instanceof AppError) {
+        Alert.alert('Novo Grupo', error.message)
+      } else {
+        Alert.alert('Novo Grupo', 'Erro não esperado.')
+      }
+    }
   }
 
   return (
