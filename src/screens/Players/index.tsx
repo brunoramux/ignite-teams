@@ -9,8 +9,11 @@ import { useState } from 'react'
 import { FlatList } from 'react-native'
 import { PlayerCard } from '@/src/components/PlayerCard'
 import { ListEmpty } from '@/src/components/ListEmpty'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
+interface RouteParams {
+  group: string
+}
 export function Players() {
   const [teams, setTeams] = useState('time a')
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -22,6 +25,9 @@ export function Players() {
     'Caio',
   ])
 
+  const route = useRoute()
+  const { group } = route.params as RouteParams
+
   const navigation = useNavigation()
 
   function handleGoBack() {
@@ -32,10 +38,7 @@ export function Players() {
     <Container>
       <Header showBackButton handleClick={handleGoBack} />
 
-      <Highlight
-        title="Nome da turma"
-        subtitle="adicione a galera e separe os times"
-      />
+      <Highlight title={group} subtitle="adicione a galera e separe os times" />
 
       <Form>
         <Input placeholder="Nome da pessoa" autoCorrect={false} />

@@ -1,12 +1,13 @@
-import { View, StyleSheet, Text, FlatList } from 'react-native'
+import { FlatList } from 'react-native'
 import * as S from './styles'
 import { Header } from '@/src/components/Header'
 import { Highlight } from '@/src/components/Highlight'
 import { GroupCard } from '@/src/components/GroupCard'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ListEmpty } from '@/src/components/ListEmpty'
 import { Button } from '@/src/components/Button'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { fetchGroups } from '@/src/storage/group/fetchGroups'
 
 type RootParamList = {
   groups: undefined
@@ -26,6 +27,15 @@ export function Groups({ navigation }: Props) {
   function handleNewGroup() {
     navigation.navigate('new')
   }
+
+  async function getGroups() {
+    const result = await fetchGroups()
+    setGroups(result)
+  }
+
+  useEffect(() => {
+    getGroups()
+  }, [groups])
 
   return (
     <S.Container>
